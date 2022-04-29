@@ -1,0 +1,17 @@
+set context-clear-screen on
+set follow-fork-mode parent
+python
+import splitmind
+(splitmind.Mind()
+  .below(display="backtrace")
+  .right(display="stack", cmd="grep rax", use_stdin=True)
+  .right(display="regs")
+  .below(cmd='sleep 1; htop')
+  .below(of="stack", cmd='sleep 1; watch ls')
+  .right(of="main", display="disasm")
+  .show("legend", on="disasm")
+).build()
+end
+set context-code-lines 30
+set context-source-code-lines 30
+set context-sections  "regs args code disasm stack backtrace"
